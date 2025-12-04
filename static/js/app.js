@@ -473,6 +473,17 @@ function escapeHtml(text) {
 // ===================================
 // Initialize
 // ===================================
-document.addEventListener('DOMContentLoaded', () => {
-    loadTestCases();
+document.addEventListener('DOMContentLoaded', async () => {
+    // Clear all test cases on page load for a fresh start
+    try {
+        await fetch('/test-cases/clear-all', { method: 'DELETE' });
+        console.log('Test cases cleared on page load');
+    } catch (error) {
+        console.error('Error clearing test cases:', error);
+    }
+
+    // Initialize with empty state
+    currentTestCases = [];
+    displayTestCases([]);
+    updateStats([]);
 });

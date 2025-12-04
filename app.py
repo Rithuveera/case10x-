@@ -497,6 +497,24 @@ def clear_all_test_cases():
         print(f"Error clearing test cases: {e}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/test-cases/clear-all', methods=['DELETE'])
+def clear_all_test_cases():
+    """Delete all test cases"""
+    try:
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        
+        cursor.execute('DELETE FROM test_cases')
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'message': 'All test cases deleted successfully'}), 200
+    
+    except Exception as e:
+        print(f"Error deleting all test cases: {e}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/export', methods=['GET'])
 def export_test_cases():
     """Export all test cases as Excel file"""
